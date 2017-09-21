@@ -9,5 +9,9 @@ namespace Nerves.Controllers
 {
     public class OrgController : ApiController
     {
+        
+        public object GetOrg() {
+            return null;
+        }
     }
 }
