@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Nerves.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Nerves
 {
@@ -10,6 +12,10 @@ namespace Nerves
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            //config.Filters.Add(new Filters.NotImplExceptionFilterAttribute());
+
+            //config.Services.Replace(typeof(IExceptionHandler), new NervesExceptionHandler());
+            //config.Services.Add(typeof(IExceptionLogger), new NervesExceptionLogger());
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -17,7 +23,8 @@ namespace Nerves
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new { id = @"\d+" }
             );
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nerves.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,9 +10,37 @@ namespace Nerves.Controllers
 {
     public class OrgController : ApiController
     {
+        IRepository repo = null;
+
+        public OrgController() {
+            repo = new Repository();
+        }
         
-        public object GetOrg() {
-            return null;
+        [HttpGet]
+        public IHttpActionResult GetOrganizationById(int id) {
+
+            var org = repo.OrganizationGetById(id);
+            if (org == null) {
+                return NotFound();
+            }
+
+            return Ok(org);
+        }
+
+
+        [HttpGet]
+        public IHttpActionResult GetOrganizations()
+        {
+
+            var org = repo.OrganizationGetAll();
+
+            return Ok(org);
+        }
+
+        [HttpPost]
+        public IHttpActionResult SaveOrganization(Organization org) {
+            repo.OrganizationSave(org);
+            return Ok();
         }
     }
 }
